@@ -29,6 +29,14 @@ api_url = "https://api.vultr.com/v1"
 snapshot_list_url = api_url + '/snapshot/list'
 server_create_url = api_url + '/server/create'
 
+server_list_url = api_url + '/server/list'
+server_list = requests.get(server_list_url, headers=auth_head)
+
+if server_list.json():
+    for k,v in server_list.json().items():
+        if v['label'] == 'auto_deployed_server':
+            exit(-1)
+
 snapshots = requests.get(snapshot_list_url, headers=auth_head)
 
 server_create_data={'DCID':25, 'VPSPLANID':201, 'OSUD':164, 'label':'auto_deployed_server'}
@@ -36,5 +44,10 @@ server_create_data={'DCID':25, 'VPSPLANID':201, 'OSUD':164, 'label':'auto_deploy
 for k,v in snapshots.json().items():
     if v['description'] == 'auto_created_snapshot':
         server_create_data['SNAPSHOTID']=k
+        break
+
+if 'SNAPSHOTID' not in server_create_data:
+    print("no label needed")
+    exit(-1)
 
 res = requests.post(server_create_url, headers=auth_head, data=server_create_data)
