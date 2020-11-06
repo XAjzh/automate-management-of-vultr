@@ -41,13 +41,16 @@ snapshots = requests.get(snapshot_list_url, headers=auth_head)
 
 server_create_data={'DCID':25, 'VPSPLANID':201, 'OSUD':164, 'label':'auto_deployed_server'}
 
-for k,v in snapshots.json().items():
-    if v['description'] == 'auto_created_snapshot':
-        server_create_data['SNAPSHOTID']=k
-        break
+if snapshots.json():
+    for k,v in snapshots.json().items():
+        if v['description'] == 'auto_created_snapshot':
+            server_create_data['SNAPSHOTID']=k
+            break
 
 if 'SNAPSHOTID' not in server_create_data:
-    print("no label needed")
     exit(-1)
 
 res = requests.post(server_create_url, headers=auth_head, data=server_create_data)
+
+if res.status_code != 200:
+    exit(-1)
