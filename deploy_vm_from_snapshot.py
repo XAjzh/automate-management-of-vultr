@@ -22,7 +22,7 @@
 # SOFTWARE.
 
 
-import sys, requests, os
+import requests, os
 
 auth_head = {'API-Key': os.getenv("VULTR_KEY")}
 api_url = "https://api.vultr.com/v1"
