@@ -8,4 +8,4 @@ Use github actions to auto deploy and destroy service in vultr.
 
 ## LICENSE
 
-MIT LICENSE
+[MIT LICENSE](./LICENSE)
