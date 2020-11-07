@@ -39,7 +39,7 @@ if server_list.json():
 
 snapshots = requests.get(snapshot_list_url, headers=auth_head)
 
-server_create_data={'DCID':25, 'VPSPLANID':201, 'OSUD':164, 'label':'auto_deployed_server'}
+server_create_data={'DCID':25, 'VPSPLANID':201, 'OSID':164, 'label':'auto_deployed_server'}
 
 if snapshots.json():
     for k,v in snapshots.json().items():
