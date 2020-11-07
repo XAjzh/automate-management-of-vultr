@@ -1,0 +1,25 @@
+name: destroy vm
+
+on:
+  schedule:
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+    - name: destroy vm
+      env:
+        VULTR_KEY: ${{ secrets.VULTR_KEY }}
+      run: |
+        python destroy_vm.py
